@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: s3-proxy-ingress
+  namespace: s3-proxy
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-read-timeout:    "30"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: haris-s3.example.com         # your desired host
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: s3-bucket
+            port:
+              number: 80
